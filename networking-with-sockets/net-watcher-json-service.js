@@ -1,5 +1,5 @@
 /** 
- * @filename: net-watcher.js
+ * @filename: net-watcher-json-service.js
  *
  * The following script binds a server to a TCP port, the server sends a reponse to the terminal 
  * client each time a target file is modified automatically by a terminal process.
@@ -25,11 +25,15 @@ if(!filename)
 const server = net.createServer(connection => {
     //Reporting
     process.stdout.write("Subscriber Connected")
-    connection.write(`Now watching ${filename} for changes....\n`)
+    connection.write(
+	JSON.stringify({type: 'watching', file: filename}) + '\n'
+    )
 
     //Watcher Setup
     const watcher = fs.watch(filename, () => {
-	connection.write(`File changed: ${new Date()}\n`)
+	connection.write(
+	    JSON.stringify({type: 'changed', timestamp: Date.now()}) + '\n'
+	)
     })
 
     
