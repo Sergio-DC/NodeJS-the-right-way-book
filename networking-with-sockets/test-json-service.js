@@ -18,14 +18,14 @@ const server = require('net').createServer(connection => {
 
     //After a short delay, send the other chunk
     const timer = setTimeout(() => {
-	connection.write(secondChunk)
-	connection.end()
+	    connection.write(secondChunk)
+	    connection.end()
     }, 100)
 
     //Clear timer when the connection ends
     connection.on('end', () => {
-	clearTimeout(timer)
-	console.log('Subscriber disconnected')
+	    clearTimeout(timer)
+	    console.log('Subscriber disconnected')
     })
 })
 
